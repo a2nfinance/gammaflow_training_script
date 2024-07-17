@@ -7,7 +7,7 @@ from dataset import generate_apple_sales_data_with_promo_adjustment
 import os
 
 os.environ["MLFLOW_ENABLE_SYSTEM_METRICS_LOGGING"] = "true"
-mlflow.set_tracking_uri("http://34.16.145.233:8080")
+mlflow.set_tracking_uri("https://tracking-server.a2n.finance")
 
 # Sets the current active experiment to the "Apple_Models" experiment and
 # returns the Experiment metadata
@@ -61,7 +61,7 @@ metrics = {"mae": mae, "mse": mse, "rmse": rmse, "r2": r2}
 print("Model metrics:", metrics)
 
 # Initiate the MLflow run context
-with mlflow.start_run(run_name=run_name) as run:
+with mlflow.start_run() as run:
     print("Log params to the tracking server")
     # Log the parameters used for the model fit
     mlflow.log_params(params)
