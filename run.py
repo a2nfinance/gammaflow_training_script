@@ -5,8 +5,8 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from dataset import generate_apple_sales_data_with_promo_adjustment
 import os
-
-# os.environ["MLFLOW_ENABLE_SYSTEM_METRICS_LOGGING"] = "true"
+import time
+os.environ["MLFLOW_ENABLE_SYSTEM_METRICS_LOGGING"] = "true"
 mlflow.set_tracking_uri("https://tracking-server.a2n.finance")
 
 # Sets the current active experiment to the "Apple_Models" experiment and
@@ -61,7 +61,7 @@ metrics = {"mae": mae, "mse": mse, "rmse": rmse, "r2": r2}
 print("Model metrics:", metrics)
 
 # Initiate the MLflow run context
-with mlflow.start_run(log_system_metrics=True) as run:
+with mlflow.start_run() as run:
     print("Log params to the tracking server")
     # Log the parameters used for the model fit
     mlflow.log_params(params)
@@ -75,3 +75,6 @@ with mlflow.start_run(log_system_metrics=True) as run:
     mlflow.sklearn.log_model(
         sk_model=rf, input_example=X_val, artifact_path=artifact_path
     )
+    # System metrics are logged at 10-second intervals.
+    # This line of code ensure metrics are logged.
+    time.sleep(10)
