@@ -3,3 +3,6 @@ scikit-learn
 scipy
 pandas
 psutil
+transformers
+requests
+openai
